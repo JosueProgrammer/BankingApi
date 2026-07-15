@@ -14,4 +14,9 @@ public interface ITransactionService
         string accountNumber,
         string idempotencyKey,
         WithdrawDto dto);
+
+    Task<Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>> GetHistoryAsync(
+        string accountNumber,
+        int page,
+        int pageSize);
 }

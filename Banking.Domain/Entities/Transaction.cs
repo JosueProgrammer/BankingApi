@@ -16,6 +16,8 @@ public class Transaction
 
     public DateTime CreatedAt { get; private set; }
 
+    public decimal BalanceAfterTransaction { get; private set; }
+
 
     private Transaction()
     {
@@ -26,13 +28,15 @@ public class Transaction
       Guid bankAccountId,
       TransactionType type,
       decimal amount,
-      string idempotencyKey)
+      string idempotencyKey,
+      decimal balanceAfterTransaction)
     {
         Id = Guid.NewGuid();
         BankAccountId = bankAccountId;
         Type = type;
         Amount = amount;
         IdempotencyKey = idempotencyKey;
+        BalanceAfterTransaction = balanceAfterTransaction;
         CreatedAt = DateTime.UtcNow;
     }
 }

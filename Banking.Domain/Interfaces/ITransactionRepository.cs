@@ -9,4 +9,9 @@ public interface ITransactionRepository
 
     Task<Transaction?> GetByIdempotencyKeyAsync(
     string idempotencyKey);
+
+    Task<(IEnumerable<Transaction> Items, int TotalCount)> GetHistoryAsync(
+        string accountNumber,
+        int page,
+        int pageSize);
 }

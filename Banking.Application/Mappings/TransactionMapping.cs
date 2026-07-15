@@ -14,6 +14,7 @@ public static class TransactionMapping
             BankAccountId = transaction.BankAccountId,
             Type = transaction.Type.ToString(),
             Amount = transaction.Amount,
+            BalanceAfterTransaction = transaction.BalanceAfterTransaction,
             CreatedAt = transaction.CreatedAt
         };
     }

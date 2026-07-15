@@ -62,4 +62,22 @@ public class TransactionsController(
 
         return Ok(result);
     }
+
+
+    /// <summary>
+    /// Obtiene el historial de transacciones de una cuenta bancaria con paginación.
+    /// </summary>
+    /// <param name="accountNumber">Número de cuenta</param>
+    /// <param name="page">Página actual (por defecto 1)</param>
+    /// <param name="pageSize">Cantidad de registros por página (máximo 100)</param>
+    /// <returns>Lista paginada de transacciones</returns>
+    [HttpGet("{accountNumber}/history")]
+    public async Task<ActionResult<Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>>> GetHistory(
+        [FromRoute] string accountNumber,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 20)
+    {
+        var result = await transactionService.GetHistoryAsync(accountNumber, page, pageSize);
+        return Ok(result);
+    }
 }

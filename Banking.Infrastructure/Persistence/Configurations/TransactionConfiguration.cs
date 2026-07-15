@@ -16,6 +16,9 @@ public class TransactionConfiguration
         builder.Property(x => x.Amount)
             .HasPrecision(18, 2);
 
+        builder.Property(x => x.BalanceAfterTransaction)
+            .HasPrecision(18, 2);
+
 
         builder.Property(x => x.Type)
             .IsRequired();

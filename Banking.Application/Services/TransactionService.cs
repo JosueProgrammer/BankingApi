@@ -43,7 +43,8 @@ public class TransactionService(
                 account,
                 TransactionType.Deposit,
                 dto.Amount,
-                idempotencyKey);
+                idempotencyKey,
+                account.Balance);
 
 
             var createdTransaction =
@@ -93,7 +94,8 @@ public class TransactionService(
                 account,
                 TransactionType.Withdrawal,
                 dto.Amount,
-                idempotencyKey);
+                idempotencyKey,
+                account.Balance);
 
 
             var createdTransaction =
@@ -114,6 +116,41 @@ public class TransactionService(
     }
 
 
+    public async Task<Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>> GetHistoryAsync(
+        string accountNumber,
+        int page,
+        int pageSize)
+    {
+        if (page < 1)
+        {
+            throw new BusinessException("La página debe ser mayor o igual a 1.");
+        }
+
+        if (pageSize < 1)
+        {
+            throw new BusinessException("El tamaño de página debe ser mayor o igual a 1.");
+        }
+
+        if (pageSize > 100)
+        {
+            throw new BusinessException("El tamaño de página no puede superar los 100 registros.");
+        }
+
+        var (items, totalCount) = await transactionRepository.GetHistoryAsync(accountNumber, page, pageSize);
+
+        var dtos = items.Select(x => x.ToResponseDto());
+
+        return new Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>
+        {
+            Items = dtos,
+            Page = page,
+            PageSize = pageSize,
+            TotalItems = totalCount,
+            TotalPages = (int)Math.Ceiling(totalCount / (double)pageSize)
+        };
+    }
+
+
     private async Task<BankAccount> GetAccountAsync(
         string accountNumber)
     {
@@ -128,12 +165,14 @@ public class TransactionService(
         BankAccount account,
         TransactionType type,
         decimal amount,
-        string idempotencyKey)
+        string idempotencyKey,
+        decimal balanceAfterTransaction)
     {
         return new Transaction(
             account.Id,
             type,
             amount,
-            idempotencyKey);
+            idempotencyKey,
+            balanceAfterTransaction);
     }
 }
