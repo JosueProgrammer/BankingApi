@@ -6,4 +6,7 @@ public interface IBankAccountService
 {
     Task<BankAccountResponseDto> CreateAccountAsync(
         CreateBankAccountDto dto);
+        
+    Task<BalanceDto> GetBalanceAsync(
+    string accountNumber);
 }

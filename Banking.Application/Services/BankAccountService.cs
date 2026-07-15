@@ -49,4 +49,20 @@ public class BankAccountService(
             "No fue posible generar un número de cuenta único.");
     }
 
+    public async Task<BalanceDto> GetBalanceAsync(
+    string accountNumber)
+    {
+        var account = await accountRepository
+            .GetByAccountNumberAsync(accountNumber)
+            ?? throw new NotFoundException(
+                "La cuenta no fue encontrada");
+
+
+        return new BalanceDto
+        {
+            AccountNumber = account.AccountNumber,
+            Balance = account.Balance
+        };
+    }
+
 }

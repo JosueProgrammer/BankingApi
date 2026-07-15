@@ -24,4 +24,16 @@ public class BankAccountsController(
             new { id = account.Id },
             account);
     }
+
+    [HttpGet("{accountNumber}/balance")]
+    [ProducesResponseType(typeof(BalanceDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<ActionResult<BalanceDto>> GetBalance(
+      string accountNumber)
+    {
+        var balance = await bankAccountService
+            .GetBalanceAsync(accountNumber);
+
+        return Ok(balance);
+    }
 }

@@ -34,4 +34,11 @@ public class BankAccountRepository(
         return await context.BankAccounts
             .FirstOrDefaultAsync(x => x.Id == id);
     }
+
+    public async Task<BankAccount?> GetByAccountNumberAsync(
+    string accountNumber)
+    {
+        return await context.BankAccounts
+            .FirstOrDefaultAsync(x => x.AccountNumber == accountNumber);
+    }
 }

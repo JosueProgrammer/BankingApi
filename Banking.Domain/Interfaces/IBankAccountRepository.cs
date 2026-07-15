@@ -14,4 +14,7 @@ public interface IBankAccountRepository
 
     Task<BankAccount?> GetByIdAsync(
         Guid id);
+    Task<BankAccount?> GetByAccountNumberAsync(
+    string accountNumber);
+
 }
