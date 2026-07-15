@@ -128,6 +128,7 @@ TransactionService(
     IBankAccountRepository accountRepository,
     ITransactionRepository transactionRepository,
     IUnitOfWork unitOfWork)
+    
 
 
 ## 🧪 Pruebas unitarias
@@ -354,6 +355,7 @@ Sigue estos pasos para ejecutar la API localmente:
 5. **Navegar a Swagger**
    Abre tu navegador y dirígete a `https://localhost:<PUERTO>/swagger/index.html` para explorar e interactuar con la API.
 
+
 ## 🧪 Ejecución de pruebas
 
 Para correr las pruebas unitarias y verificar el estado de los componentes clave:
@@ -361,3 +363,16 @@ Para correr las pruebas unitarias y verificar el estado de los componentes clave
 ```bash
 dotnet test
 ```
+
+## 🌐 API desplegada
+
+La API se encuentra desplegada en Render:
+
+🔗 Swagger UI:
+
+https://bankingapi-jakd.onrender.com/swagger/index.html
+
+> Nota: El servicio utiliza el plan gratuito de Render, por lo que la primera carga puede tardar unos segundos mientras la instancia se activa después de un periodo de inactividad.  
+> Esto corresponde al comportamiento del plan gratuito y no representa un problema de rendimiento de la API.
+
+Una vez iniciada la instancia, los endpoints responden normalmente.
