@@ -10,6 +10,12 @@ public class TransactionsController(
     ITransactionService transactionService)
     : ControllerBase
 {
+    /// <summary>
+    /// Realiza un depósito en una cuenta bancaria.
+    /// </summary>
+    /// <param name="accountNumber">Número de cuenta destino.</param>
+    /// <param name="dto">Datos del depósito.</param>
+    /// <param name="idempotencyKey">Clave de idempotencia para evitar transacciones duplicadas. <example>deposit-001</example></param>
     [HttpPost("{accountNumber}/deposit")]
     public async Task<ActionResult<TransactionDto>> Deposit(
         string accountNumber,
@@ -37,6 +43,12 @@ public class TransactionsController(
     }
 
 
+    /// <summary>
+    /// Realiza un retiro de una cuenta bancaria.
+    /// </summary>
+    /// <param name="accountNumber">Número de cuenta origen.</param>
+    /// <param name="dto">Datos del retiro.</param>
+    /// <param name="idempotencyKey">Clave de idempotencia para evitar transacciones duplicadas. <example>withdraw-001</example></param>
     [HttpPost("{accountNumber}/withdraw")]
     public async Task<ActionResult<TransactionDto>> Withdraw(
         string accountNumber,

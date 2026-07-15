@@ -14,7 +14,21 @@ builder.Services.AddInfrastructure(
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    var apiXmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var apiXmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, apiXmlFile);
+    if (System.IO.File.Exists(apiXmlPath))
+    {
+        c.IncludeXmlComments(apiXmlPath);
+    }
+
+    var appXmlPath = System.IO.Path.Combine(AppContext.BaseDirectory, "Banking.Application.xml");
+    if (System.IO.File.Exists(appXmlPath))
+    {
+        c.IncludeXmlComments(appXmlPath);
+    }
+});
 
 
 var app = builder.Build();
