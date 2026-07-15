@@ -10,6 +10,6 @@ public class WithdrawValidator
     {
         RuleFor(x => x.Amount)
             .GreaterThan(0)
-            .WithMessage("El monto del retiro debe ser mayor a cero.");
+            .WithMessage("The withdrawal amount must be greater than zero.");
     }
 }

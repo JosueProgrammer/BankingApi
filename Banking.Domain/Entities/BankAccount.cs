@@ -28,7 +28,7 @@ public class BankAccount
         if (initialBalance < 0)
         {
             throw new BusinessException(
-                "El saldo inicial no puede ser negativo");
+                "Initial balance cannot be negative.");
         }
 
 
@@ -48,7 +48,7 @@ public class BankAccount
         if (amount <= 0)
         {
             throw new BusinessException(
-                "El monto del depósito debe ser mayor a cero.");
+                "Deposit amount must be greater than zero.");
         }
 
         Balance += amount;
@@ -60,14 +60,14 @@ public class BankAccount
         if (amount <= 0)
         {
             throw new BusinessException(
-                "El monto del retiro debe ser mayor a cero.");
+                "Withdrawal amount must be greater than zero.");
         }
 
 
         if (Balance < amount)
         {
             throw new InsufficientFundsException(
-                "Fondos insuficientes para realizar el retiro.");
+                "Insufficient funds to complete the withdrawal.");
         }
 
 

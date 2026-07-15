@@ -16,7 +16,7 @@ public class BankAccountService(
     public async Task<BankAccountResponseDto> CreateAccountAsync(CreateBankAccountDto dto)
     {
         var customer = await customerRepository.GetByIdAsync(dto.CustomerId)
-            ?? throw new NotFoundException("El cliente no fue encontrado");
+            ?? throw new NotFoundException("Customer not found.");
 
         var accountNumber = await GenerateUniqueAccountNumberAsync();
 
@@ -46,7 +46,7 @@ public class BankAccountService(
         }
 
         throw new BusinessException(
-            "No fue posible generar un número de cuenta único.");
+            "Unable to generate a unique account number.");
     }
 
     public async Task<BalanceDto> GetBalanceAsync(
@@ -55,7 +55,7 @@ public class BankAccountService(
         var account = await accountRepository
             .GetByAccountNumberAsync(accountNumber)
             ?? throw new NotFoundException(
-                "La cuenta no fue encontrada");
+                "Bank account not found.");
 
 
         return new BalanceDto

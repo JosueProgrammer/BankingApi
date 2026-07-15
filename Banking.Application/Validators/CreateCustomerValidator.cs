@@ -10,16 +10,16 @@ public class CreateCustomerValidator
     {
         RuleFor(x => x.FullName)
             .NotEmpty()
-            .WithMessage("El nombre completo es obligatorio");
+            .WithMessage("Full name is required.");
 
 
         RuleFor(x => x.BirthDate)
             .LessThan(DateTime.UtcNow)
-            .WithMessage("La fecha de nacimiento no es válida");
+            .WithMessage("Birth date is not valid.");
 
 
         RuleFor(x => x.MonthlyIncome)
             .GreaterThan(0)
-            .WithMessage("Los ingresos deben ser mayores a cero");
+            .WithMessage("Monthly income must be greater than zero.");
     }
 }

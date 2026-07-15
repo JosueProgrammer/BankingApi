@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Banking.Api.Controllers;
 
+/// <summary>
+/// Handles financial transactions: deposits, withdrawals, and transaction history.
+/// </summary>
 [ApiController]
 [Route("api/transactions")]
 public class TransactionsController(
@@ -11,11 +14,11 @@ public class TransactionsController(
     : ControllerBase
 {
     /// <summary>
-    /// Realiza un depósito en una cuenta bancaria.
+    /// Performs a deposit into a bank account.
     /// </summary>
-    /// <param name="accountNumber">Número de cuenta destino.</param>
-    /// <param name="dto">Datos del depósito.</param>
-    /// <param name="idempotencyKey">Clave de idempotencia para evitar transacciones duplicadas. <example>deposit-001</example></param>
+    /// <param name="accountNumber">The destination account number.</param>
+    /// <param name="dto">Deposit data.</param>
+    /// <param name="idempotencyKey">Idempotency key to prevent duplicate transactions. <example>deposit-001</example></param>
     [HttpPost("{accountNumber}/deposit")]
     public async Task<ActionResult<TransactionDto>> Deposit(
         string accountNumber,
@@ -25,13 +28,13 @@ public class TransactionsController(
         if (string.IsNullOrWhiteSpace(idempotencyKey))
         {
             return BadRequest(
-                "El header Idempotency-Key es obligatorio.");
+                "The Idempotency-Key header is required.");
         }
 
         if (idempotencyKey.Length > 100)
         {
             return BadRequest(
-                "El Idempotency-Key no puede superar 100 caracteres.");
+                "The Idempotency-Key cannot exceed 100 characters.");
         }
 
         var result = await transactionService.DepositAsync(
@@ -44,11 +47,11 @@ public class TransactionsController(
 
 
     /// <summary>
-    /// Realiza un retiro de una cuenta bancaria.
+    /// Performs a withdrawal from a bank account.
     /// </summary>
-    /// <param name="accountNumber">Número de cuenta origen.</param>
-    /// <param name="dto">Datos del retiro.</param>
-    /// <param name="idempotencyKey">Clave de idempotencia para evitar transacciones duplicadas. <example>withdraw-001</example></param>
+    /// <param name="accountNumber">The source account number.</param>
+    /// <param name="dto">Withdrawal data.</param>
+    /// <param name="idempotencyKey">Idempotency key to prevent duplicate transactions. <example>withdraw-001</example></param>
     [HttpPost("{accountNumber}/withdraw")]
     public async Task<ActionResult<TransactionDto>> Withdraw(
         string accountNumber,
@@ -58,13 +61,13 @@ public class TransactionsController(
         if (string.IsNullOrWhiteSpace(idempotencyKey))
         {
             return BadRequest(
-                "El header Idempotency-Key es obligatorio.");
+                "The Idempotency-Key header is required.");
         }
 
         if (idempotencyKey.Length > 100)
         {
             return BadRequest(
-                "El Idempotency-Key no puede superar 100 caracteres.");
+                "The Idempotency-Key cannot exceed 100 characters.");
         }
 
         var result = await transactionService.WithdrawAsync(
@@ -77,13 +80,13 @@ public class TransactionsController(
 
 
     /// <summary>
-    /// Obtiene el historial de transacciones de una cuenta bancaria con paginación.
+    /// Retrieves the transaction history for a bank account with pagination.
     /// </summary>
-    /// <param name="accountNumber">Número de cuenta</param>
-    /// <param name="page">Página actual (por defecto 1)</param>
-    /// <param name="pageSize">Cantidad de registros por página (máximo 100)</param>
-    /// <param name="type">Filtro opcional por tipo de transacción (Deposit o Withdrawal)</param>
-    /// <returns>Lista paginada de transacciones</returns>
+    /// <param name="accountNumber">The account number.</param>
+    /// <param name="page">Current page number (default: 1).</param>
+    /// <param name="pageSize">Number of records per page (maximum: 100).</param>
+    /// <param name="type">Optional filter by transaction type (Deposit or Withdrawal).</param>
+    /// <returns>Paginated list of transactions.</returns>
     [HttpGet("{accountNumber}/history")]
     public async Task<ActionResult<Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>>> GetHistory(
         [FromRoute] string accountNumber,

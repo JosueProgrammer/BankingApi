@@ -32,7 +32,7 @@ public class CustomerService(ICustomerRepository customerRepository)
     {
         var customer = await customerRepository.GetByIdAsync(id)
             ?? throw new NotFoundException(
-                "El cliente no fue encontrado");
+                "Customer not found.");
 
         return customer.ToResponseDto();
     }

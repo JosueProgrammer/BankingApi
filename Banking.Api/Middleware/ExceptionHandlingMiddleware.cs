@@ -49,12 +49,12 @@ public class ExceptionHandlingMiddleware
         {
             _logger.LogError(
                 ex,
-                "Error interno no controlado");
+                "Unhandled internal error");
 
             await HandleExceptionAsync(
                 context,
                 HttpStatusCode.InternalServerError,
-                "Ocurrió un error interno");
+                "An internal error occurred.");
         }
     }
 

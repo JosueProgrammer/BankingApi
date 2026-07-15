@@ -27,17 +27,17 @@ public class Customer
     {
         if (string.IsNullOrWhiteSpace(fullName))
             throw new BusinessException(
-                "El nombre es obligatorio");
+                "Full name is required.");
 
 
         if (monthlyIncome <= 0)
             throw new BusinessException(
-                "Los ingresos deben ser mayores a cero");
+                "Monthly income must be greater than zero.");
 
 
         if (birthDate > DateTime.UtcNow)
             throw new BusinessException(
-                "Fecha inválida");
+                "Birth date is not valid.");
 
 
         Id = Guid.NewGuid();

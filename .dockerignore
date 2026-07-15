@@ -1,0 +1,10 @@
+.git
+.gitignore
+**/bin/
+**/obj/
+**/*.user
+**/*.db
+**/*.db-shm
+**/*.db-wal
+README.md
+.agents/

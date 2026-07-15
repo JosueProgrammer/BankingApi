@@ -124,17 +124,17 @@ public class TransactionService(
     {
         if (page < 1)
         {
-            throw new BusinessException("La página debe ser mayor o igual a 1.");
+            throw new BusinessException("Page number must be greater than or equal to 1.");
         }
 
         if (pageSize < 1)
         {
-            throw new BusinessException("El tamaño de página debe ser mayor o igual a 1.");
+            throw new BusinessException("Page size must be greater than or equal to 1.");
         }
 
         if (pageSize > 100)
         {
-            throw new BusinessException("El tamaño de página no puede superar los 100 registros.");
+            throw new BusinessException("Page size cannot exceed 100 records.");
         }
 
         TransactionType? transactionType = null;
@@ -146,7 +146,7 @@ public class TransactionService(
             }
             else
             {
-                throw new BusinessException($"El tipo de transacción '{type}' no es válido.");
+                throw new BusinessException($"The transaction type '{type}' is not valid.");
             }
         }
 
@@ -171,7 +171,7 @@ public class TransactionService(
         return await accountRepository
             .GetByAccountNumberAsync(accountNumber)
             ?? throw new NotFoundException(
-                "La cuenta no fue encontrada");
+                "Bank account not found.");
     }
 
 

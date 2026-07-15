@@ -10,10 +10,10 @@ public class CreateBankAccountValidator
     {
         RuleFor(x => x.CustomerId)
             .NotEmpty()
-            .WithMessage("El cliente es obligatorio.");
+            .WithMessage("Customer ID is required.");
 
         RuleFor(x => x.InitialBalance)
             .GreaterThanOrEqualTo(0)
-            .WithMessage("El saldo inicial no puede ser negativo.");
+            .WithMessage("Initial balance cannot be negative.");
     }
 }

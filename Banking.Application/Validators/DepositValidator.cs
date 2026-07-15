@@ -10,6 +10,6 @@ public class DepositValidator
     {
         RuleFor(x => x.Amount)
             .GreaterThan(0)
-            .WithMessage("El monto del depósito debe ser mayor a cero.");
+            .WithMessage("The deposit amount must be greater than zero.");
     }
 }
