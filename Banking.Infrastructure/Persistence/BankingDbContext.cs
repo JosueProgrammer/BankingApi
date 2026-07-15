@@ -9,7 +9,7 @@ public class BankingDbContext(
 {
     public DbSet<Customer> Customers { get; set; }
 
-
+    public DbSet<BankAccount> BankAccounts { get; set; }
     protected override void OnModelCreating(
         ModelBuilder modelBuilder)
     {
@@ -18,4 +18,5 @@ public class BankingDbContext(
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(BankingDbContext).Assembly);
     }
+
 }

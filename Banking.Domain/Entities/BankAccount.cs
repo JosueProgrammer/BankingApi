@@ -1,14 +1,45 @@
+using Banking.Domain.Exceptions;
+
 namespace Banking.Domain.Entities;
 
 public class BankAccount
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; private set; }
 
-    public string AccountNumber { get; set; } = string.Empty;
+    public Guid CustomerId { get; private set; }
 
-    public decimal Balance { get; set; }
+    public string AccountNumber { get; private set; } = null!;
 
-    public Guid CustomerId { get; set; }
+    public decimal Balance { get; private set; }
 
-    public Customer Customer { get; set; } = null!;
+    public DateTime CreatedAt { get; private set; }
+
+
+    private BankAccount()
+    {
+    }
+
+
+    public BankAccount(
+        Guid customerId,
+        string accountNumber,
+        decimal initialBalance)
+    {
+        if (initialBalance < 0)
+        {
+            throw new BusinessException(
+                "El saldo inicial no puede ser negativo");
+        }
+
+
+        Id = Guid.NewGuid();
+
+        CustomerId = customerId;
+
+        AccountNumber = accountNumber;
+
+        Balance = initialBalance;
+
+        CreatedAt = DateTime.UtcNow;
+    }
 }
