@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Banking.Infrastructure.Persistence.Configurations;
 
-public class TransactionConfiguration 
+public class TransactionConfiguration
     : IEntityTypeConfiguration<Transaction>
 {
     public void Configure(
@@ -23,6 +23,14 @@ public class TransactionConfiguration
 
         builder.Property(x => x.CreatedAt)
             .IsRequired();
+
+        builder.Property(x => x.IdempotencyKey)
+    .HasMaxLength(100)
+    .IsRequired();
+
+
+        builder.HasIndex(x => x.IdempotencyKey)
+            .IsUnique();
 
 
         builder.HasOne<BankAccount>()

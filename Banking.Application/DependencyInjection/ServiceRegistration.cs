@@ -15,6 +15,9 @@ public static class ServiceRegistration
         services.AddScoped<IBankAccountService, BankAccountService>();
 
         services.AddValidatorsFromAssembly(typeof(ServiceRegistration).Assembly);
+
+        services.AddScoped<ITransactionService, TransactionService>();
+        
         return services;
     }
 }

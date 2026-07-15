@@ -42,4 +42,35 @@ public class BankAccount
 
         CreatedAt = DateTime.UtcNow;
     }
+
+    public void Deposit(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            throw new BusinessException(
+                "El monto del depósito debe ser mayor a cero.");
+        }
+
+        Balance += amount;
+    }
+
+
+    public void Withdraw(decimal amount)
+    {
+        if (amount <= 0)
+        {
+            throw new BusinessException(
+                "El monto del retiro debe ser mayor a cero.");
+        }
+
+
+        if (Balance < amount)
+        {
+            throw new InsufficientFundsException(
+                "Fondos insuficientes para realizar el retiro.");
+        }
+
+
+        Balance -= amount;
+    }
 }

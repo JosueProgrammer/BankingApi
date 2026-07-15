@@ -1,4 +1,5 @@
 namespace Banking.Domain.Entities;
+
 using Banking.Domain.Enums;
 
 public class Transaction
@@ -6,6 +7,8 @@ public class Transaction
     public Guid Id { get; private set; }
 
     public Guid BankAccountId { get; private set; }
+
+    public string IdempotencyKey { get; private set; }
 
     public TransactionType Type { get; private set; }
 
@@ -20,14 +23,16 @@ public class Transaction
 
 
     public Transaction(
-        Guid bankAccountId,
-        TransactionType type,
-        decimal amount)
+      Guid bankAccountId,
+      TransactionType type,
+      decimal amount,
+      string idempotencyKey)
     {
         Id = Guid.NewGuid();
         BankAccountId = bankAccountId;
         Type = type;
         Amount = amount;
+        IdempotencyKey = idempotencyKey;
         CreatedAt = DateTime.UtcNow;
     }
 }

@@ -6,4 +6,7 @@ public interface ITransactionRepository
 {
     Task<Transaction> CreateAsync(
         Transaction transaction);
+
+    Task<Transaction?> GetByIdempotencyKeyAsync(
+    string idempotencyKey);
 }
