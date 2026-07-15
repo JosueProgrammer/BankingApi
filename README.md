@@ -85,6 +85,51 @@ BankingApi
 - Las respuestas de error utilizan un formato JSON estándar.
 - **No existen try/catch repetitivos** en los controladores; se mantienen limpios y delgados delegando todo al middleware y a la capa de Aplicación.
 
+## 🧩 Principios SOLID aplicados
+
+El proyecto implementa los principios SOLID mediante el uso de Clean Architecture, separación de responsabilidades y dependencia de abstracciones.
+
+### Single Responsibility Principle (SRP)
+Cada componente tiene una única responsabilidad:
+
+- Controllers: Manejan únicamente solicitudes HTTP y respuestas.
+- Application Services: Contienen la lógica de negocio.
+- Repositories: Gestionan únicamente el acceso a datos.
+- Domain Entities: Mantienen las reglas propias del dominio.
+
+### Open/Closed Principle (OCP)
+El sistema está diseñado para permitir extensiones sin modificar lógica existente:
+
+- Uso de interfaces como `ITransactionRepository`, `IBankAccountRepository` e `IUnitOfWork`.
+- Las implementaciones pueden cambiar sin afectar la capa de aplicación.
+
+### Liskov Substitution Principle (LSP)
+Las dependencias trabajan mediante contratos definidos por interfaces:
+
+- Cualquier implementación de un repositorio puede sustituirse sin modificar los servicios que lo consumen.
+
+### Interface Segregation Principle (ISP)
+Las interfaces están separadas por responsabilidad:
+
+- `ITransactionService`
+- `IBankAccountRepository`
+- `ITransactionRepository`
+- `IUnitOfWork`
+
+Evita interfaces grandes con métodos no relacionados.
+
+### Dependency Inversion Principle (DIP)
+La capa Application no depende de implementaciones concretas:
+
+Ejemplo:
+
+```csharp
+TransactionService(
+    IBankAccountRepository accountRepository,
+    ITransactionRepository transactionRepository,
+    IUnitOfWork unitOfWork)
+
+
 ## 🧪 Pruebas unitarias
 
 El proyecto `Banking.Tests` contiene pruebas desarrolladas en xUnit y Moq enfocadas en la lógica central:
@@ -92,6 +137,193 @@ El proyecto `Banking.Tests` contiene pruebas desarrolladas en xUnit y Moq enfoca
 - **Depósitos**: Verificación del incremento del saldo y correcto commit de `UnitOfWork`.
 - **Retiros exitosos**: Verificación del descuento de fondos y generación de la entidad transaccional.
 - **Retiros sin fondos**: Validación del disparo de la excepción `InsufficientFundsException` y ejecución del Rollback.
+
+```md
+## 🔍 Prueba de la API mediante Swagger
+
+Swagger disponible en:
+
+```
+
+[https://localhost](https://localhost):<PUERTO>/swagger/index.html
+
+```
+
+## Flujo de prueba
+
+### 1. Crear cliente
+
+```
+
+POST /api/customers
+
+````
+
+```json
+{
+  "fullName": "John Doe",
+  "birthDate": "1995-05-20",
+  "gender": 1,
+  "monthlyIncome": 5000
+}
+````
+
+Guardar el `id` generado.
+
+---
+
+### 2. Crear cuenta bancaria
+
+```
+POST /api/bankaccounts
+```
+
+```json
+{
+  "customerId": "cliente-id"
+}
+```
+
+Guardar el `accountNumber` generado.
+
+---
+
+### 3. Consultar saldo inicial
+
+```
+GET /api/bankaccounts/{accountNumber}/balance
+```
+
+Resultado esperado:
+
+```json
+{
+  "balance": 0
+}
+```
+
+---
+
+### 4. Realizar depósito
+
+```
+POST /api/transactions/{accountNumber}/deposit
+```
+
+Header:
+
+```
+Idempotency-Key: deposit-operation-001
+```
+
+Body:
+
+```json
+{
+  "amount": 2000
+}
+```
+
+Validar saldo:
+
+```
+GET /api/bankaccounts/{accountNumber}/balance
+```
+
+Resultado esperado:
+
+```json
+{
+  "balance": 2000
+}
+```
+
+---
+
+### 5. Realizar retiro
+
+```
+POST /api/transactions/{accountNumber}/withdraw
+```
+
+Header:
+
+```
+Idempotency-Key: withdraw-operation-001
+```
+
+Body:
+
+```json
+{
+  "amount": 500
+}
+```
+
+Validar saldo:
+
+```json
+{
+  "balance": 1500
+}
+```
+
+---
+
+### 6. Validar retiro sin fondos
+
+```
+POST /api/transactions/{accountNumber}/withdraw
+```
+
+Body:
+
+```json
+{
+  "amount": 5000
+}
+```
+
+Resultado esperado:
+
+* Error por fondos insuficientes.
+* El saldo no cambia.
+
+---
+
+### 7. Validar idempotencia
+
+Repetir una operación usando el mismo:
+
+```
+Idempotency-Key
+```
+
+Resultado esperado:
+
+* No duplica la operación.
+* Mantiene el saldo correcto.
+
+---
+
+### 8. Consultar historial
+
+```
+GET /api/transactions/{accountNumber}/history?page=1&pageSize=20
+```
+
+Validar:
+
+* Id de transacción.
+* Tipo de operación.
+* Monto.
+* Fecha.
+* Saldo posterior.
+* Paginación.
+
+```
+```
+
 
 ## ⚙️ Instalación y ejecución
 
