@@ -31,21 +31,27 @@ public class TransactionRepository(
     public async Task<(IEnumerable<Transaction> Items, int TotalCount)> GetHistoryAsync(
         string accountNumber,
         int page,
-        int pageSize)
+        int pageSize,
+        Banking.Domain.Enums.TransactionType? type = null)
     {
-        var accountId = await context.BankAccounts
-      .Where(a => a.AccountNumber == accountNumber)
-      .Select(a => a.Id)
-      .FirstOrDefaultAsync();
+        var accountId = await context.Set<BankAccount>()
+            .Where(a => a.AccountNumber == accountNumber)
+            .Select(a => a.Id)
+            .FirstOrDefaultAsync();
 
         if (accountId == Guid.Empty)
         {
-            throw new NotFoundException(
-             "La cuenta no fue encontrada.");
+           throw new NotFoundException(
+            "La cuenta no fue encontrada.");
         }
 
         var query = context.Transactions
             .Where(t => t.BankAccountId == accountId);
+
+        if (type.HasValue)
+        {
+            query = query.Where(t => t.Type == type.Value);
+        }
 
         var totalCount = await query.CountAsync();
 

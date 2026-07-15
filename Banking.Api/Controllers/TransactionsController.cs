@@ -82,14 +82,16 @@ public class TransactionsController(
     /// <param name="accountNumber">Número de cuenta</param>
     /// <param name="page">Página actual (por defecto 1)</param>
     /// <param name="pageSize">Cantidad de registros por página (máximo 100)</param>
+    /// <param name="type">Filtro opcional por tipo de transacción (Deposit o Withdrawal)</param>
     /// <returns>Lista paginada de transacciones</returns>
     [HttpGet("{accountNumber}/history")]
     public async Task<ActionResult<Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>>> GetHistory(
         [FromRoute] string accountNumber,
         [FromQuery] int page = 1,
-        [FromQuery] int pageSize = 20)
+        [FromQuery] int pageSize = 20,
+        [FromQuery] string? type = null)
     {
-        var result = await transactionService.GetHistoryAsync(accountNumber, page, pageSize);
+        var result = await transactionService.GetHistoryAsync(accountNumber, page, pageSize, type);
         return Ok(result);
     }
 }

@@ -119,7 +119,8 @@ public class TransactionService(
     public async Task<Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>> GetHistoryAsync(
         string accountNumber,
         int page,
-        int pageSize)
+        int pageSize,
+        string? type = null)
     {
         if (page < 1)
         {
@@ -136,7 +137,20 @@ public class TransactionService(
             throw new BusinessException("El tamaño de página no puede superar los 100 registros.");
         }
 
-        var (items, totalCount) = await transactionRepository.GetHistoryAsync(accountNumber, page, pageSize);
+        TransactionType? transactionType = null;
+        if (!string.IsNullOrWhiteSpace(type))
+        {
+            if (Enum.TryParse<TransactionType>(type, true, out var parsedType))
+            {
+                transactionType = parsedType;
+            }
+            else
+            {
+                throw new BusinessException($"El tipo de transacción '{type}' no es válido.");
+            }
+        }
+
+        var (items, totalCount) = await transactionRepository.GetHistoryAsync(accountNumber, page, pageSize, transactionType);
 
         var dtos = items.Select(x => x.ToResponseDto());
 

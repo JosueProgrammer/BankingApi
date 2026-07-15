@@ -18,5 +18,6 @@ public interface ITransactionService
     Task<Banking.Application.DTOs.Common.PagedResultDto<TransactionDto>> GetHistoryAsync(
         string accountNumber,
         int page,
-        int pageSize);
+        int pageSize,
+        string? type = null);
 }
