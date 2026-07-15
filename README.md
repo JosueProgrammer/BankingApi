@@ -99,7 +99,7 @@ Sigue estos pasos para ejecutar la API localmente:
 
 1. **Clonar repositorio**
    ```bash
-   git clone <URL_DEL_REPOSITORIO>
+   git clone https://github.com/JosueProgrammer/BankingApi.git
    cd BankingApi
    ```
 
@@ -120,7 +120,7 @@ Sigue estos pasos para ejecutar la API localmente:
    ```
 
 5. **Navegar a Swagger**
-   Abre tu navegador y dirígete a `https://localhost:<PUERTO>/swagger` para explorar e interactuar con la API.
+   Abre tu navegador y dirígete a `https://localhost:<PUERTO>/swagger/index.html` para explorar e interactuar con la API.
 
 ## 🧪 Ejecución de pruebas
 
