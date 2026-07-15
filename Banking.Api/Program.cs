@@ -1,5 +1,6 @@
 using Banking.Application.DependencyInjection;
 using Banking.Infrastructure.DependencyInjection;
+using Banking.Api.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +19,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {
