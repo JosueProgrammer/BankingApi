@@ -4,6 +4,7 @@ using Banking.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Banking.Infrastructure.Generators;
 
 namespace Banking.Infrastructure.DependencyInjection;
 
@@ -22,7 +23,7 @@ public static class ServiceRegistration
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
         services.AddScoped<IBankAccountRepository, BankAccountRepository>();
-
+        services.AddScoped<IAccountNumberGenerator, AccountNumberGenerator>();
 
         return services;
     }
