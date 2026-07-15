@@ -25,6 +25,7 @@ public static class ServiceRegistration
         services.AddScoped<IBankAccountRepository, BankAccountRepository>();
         services.AddScoped<IAccountNumberGenerator, AccountNumberGenerator>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }
