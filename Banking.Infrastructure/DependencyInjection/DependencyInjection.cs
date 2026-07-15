@@ -21,6 +21,7 @@ public static class ServiceRegistration
 
 
         services.AddScoped<ICustomerRepository, CustomerRepository>();
+        services.AddScoped<IBankAccountRepository, BankAccountRepository>();
 
 
         return services;
